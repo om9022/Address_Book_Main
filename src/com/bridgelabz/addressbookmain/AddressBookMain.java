@@ -19,7 +19,8 @@ public class AddressBookMain {
 					+ "\n 6 View Person on basis Of State or City "
 					+ "\n 7 Count of Person on basis Of State or City"
 					+ "\n 8 Sort contact on basis of Person name "
-					+ "\n 9 Quit"
+					+ "\n 9 Sort On the basis of city,state or Zip"
+					+ "\n 10 Quit"
 					);
 
 			int userChoice = scanner.nextInt();
@@ -28,7 +29,7 @@ public class AddressBookMain {
 			case 1:				
 				addressBook.addContact();				
 				break;
-
+				
 			case 2:
 				System.out.println("Enter the Phone Number");
 				int phoneNumber = scanner.nextInt();				
@@ -36,7 +37,7 @@ public class AddressBookMain {
 				String bookName = scanner.next();
 				addressBook.editContact(phoneNumber,bookName);	
 				break;
-
+				
 			case 3:
 				System.out.println("Enter the Phone Number");
 				int phoneNumberToDelete = scanner.nextInt();
@@ -44,11 +45,11 @@ public class AddressBookMain {
 				String bookNameToUapdate = scanner.next();
 				addressBook.deleteContact(phoneNumberToDelete,bookNameToUapdate);
 				break;
-
+				
 			case 4:	
 				addressBook.displayContact();
 				break;
-
+				
 			case 5:
 				System.out.println("Enter the city or state which to be searched");
 				String searchKey = scanner.next();
@@ -60,23 +61,29 @@ public class AddressBookMain {
 				String viewKey = scanner.next();
 				addressBook.viewPerson(viewKey);
 				break;
-
+			
 			case 7:
 				System.out.println("Enter the city or state which to be searched");
 				String searchKeyForCount = scanner.next();
 				int count = addressBook.searchPerson(searchKeyForCount);
 				System.out.println("Total Contacts are : "+count+ " in "+ searchKeyForCount);
 				break;
-
+				
 			case 8:
 				addressBook.sortContacts();
 				break;
-
+			
 			case 9:
+				System.out.println("How you want to sort\n1 City \n2 State \n3 Zip");
+				int sortByWhich = scanner.nextInt();
+				addressBook.sortBY(sortByWhich);
+				break;
+
+			case 10:
 				System.out.println("Thanks For Using Us");
 				System.exit(0);
 				break;
-
+				
 			default:
 				System.out.println("Please Enter Proper Option");
 			}

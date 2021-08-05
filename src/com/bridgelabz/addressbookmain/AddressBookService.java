@@ -1,11 +1,14 @@
 package com.bridgelabz.addressbookmain;
 
 import java.util.Comparator;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-public class AddressBookService {
+
+public class AddressBookService
+{
 	//address books hash map
 	HashMap<String,LinkedList<Contact>> addressBooks = new HashMap<>();
 	Scanner scanner = new Scanner(System.in);
@@ -175,14 +178,47 @@ public class AddressBookService {
 		}
 
 	}
-
+	
 	//method to sort contacts based on person name
 	public void sortContacts()
 	{
 		for (String bookName : addressBooks.keySet())
 		{
 			LinkedList<Contact> contatct = addressBooks.get(bookName);
-			contatct.stream().sorted(Comparator.comparing(Contact::getFirstName)).forEach(n->System.out.println(n));
+		 	contatct.stream().sorted(Comparator.comparing(Contact::getFirstName)).forEach(n->System.out.println(n));
 		}
+	}
+	
+	//method to sort by city state or zip
+	public void sortBY(int sortByWhich)
+	{
+		switch (sortByWhich)
+		{
+		case 1:
+			for (String bookName : addressBooks.keySet())
+			{
+				LinkedList<Contact> contatct = addressBooks.get(bookName);
+			 	contatct.stream().sorted(Comparator.comparing(Contact::getCity)).forEach(n->System.out.println(n));
+			}
+			break;
+		case 2:
+			for (String bookName : addressBooks.keySet())
+			{
+				LinkedList<Contact> contatct = addressBooks.get(bookName);
+				contatct.stream().sorted(Comparator.comparing(Contact::getState)).forEach(n->System.out.println(n));
+			}
+			break;
+		case 3:				
+			for (String bookName : addressBooks.keySet())
+			{
+				LinkedList<Contact> contatct = addressBooks.get(bookName);
+				contatct.stream().sorted(Comparator.comparing(Contact::getZip)).forEach(n->System.out.println(n));
+			}
+			break;
+		default:
+			System.out.println("Invalid Inout");
+			break;
+		}
+		
 	}
 }
