@@ -6,13 +6,14 @@ import java.util.Scanner;
 
 public class AddressBookService {
 	HashMap<String,LinkedList<Contact>> addressBooks = new HashMap<>();
-	LinkedList<Contact> allContacts = new LinkedList<Contact>();
 	Scanner scanner = new Scanner(System.in);
+	LinkedList<Contact> allContacts2 = new LinkedList<Contact>();
 
 	//method to add contacts
 	public Contact addContact()
 	{
 		Contact contact = new Contact();
+		LinkedList<Contact> allContacts = new LinkedList<Contact>();
 		System.out.println("Enter First Name");
 		contact.setFirstName(scanner.next());
 		System.out.println("Enter last Name");
@@ -31,15 +32,13 @@ public class AddressBookService {
 		contact.setEmail(scanner.next());
 		System.out.println("Enter Book name to which you have to add contact");
 		String bookName  = scanner.next();
-		
+
 		//checking book already exist
 		if (addressBooks.containsKey(bookName))
 		{
 			//if exist then add contact to list
-			LinkedList<Contact> contactList  =  addressBooks.get(bookName);
-			contactList.add(contact);				
-			addressBooks.put(bookName, contactList);
-			System.out.println("New Contact Added Sucessfully");
+			LinkedList<Contact> contactList  =  addressBooks.get(bookName);				
+			addContactToExsistingBook(contact, bookName, contactList);
 		}
 		else
 		{	
@@ -48,17 +47,17 @@ public class AddressBookService {
 			addressBooks.put(bookName,allContacts);
 			System.out.println("New book created and Contact Added Sucessfully");
 		}
-		
+
 		return contact;
 	}
 
 	public boolean deleteContact(int phoneNumber) 
 	{
-		for (Contact contact : allContacts)
+		for (Contact contact : allContacts2)
 		{	
 			if (contact.getPhoneNumber() == phoneNumber)
 			{
-				allContacts.remove(contact);
+				allContacts2.remove(contact);
 				return operationStatus(true);
 			}
 		}
@@ -67,7 +66,7 @@ public class AddressBookService {
 
 	public boolean editContact(int phoneNumber)
 	{
-		for (Contact contact : allContacts)
+		for (Contact contact : allContacts2)
 		{	
 			if (contact.getPhoneNumber() == phoneNumber)
 			{
@@ -96,14 +95,27 @@ public class AddressBookService {
 	}
 
 
-	public void diaplayContacts()
+	public void displayContacts(LinkedList<Contact> contactList)
 	{
-		for (Contact contact : allContacts)
+		for (Contact contact : contactList)
 		{	
 			System.out.println(contact);
 		}
 	} 
 
+	public void displayContact() 
+	{
+		for (String bookName : addressBooks.keySet())
+		{
+			System.out.println(bookName);
+			LinkedList<Contact> contactList  =  addressBooks.get(bookName);
+			displayContacts(contactList);
+		}
+	}
+
+
+
+	//method to get operation status 
 	private static boolean operationStatus(boolean status) 
 	{
 		if(status)
@@ -115,5 +127,29 @@ public class AddressBookService {
 			System.out.println("Contact not found");
 		}
 		return status;
+	}
+
+	//check Duplicate using name
+	private void addContactToExsistingBook(Contact contact, String bookName, LinkedList<Contact> contactList)
+	{
+		boolean isAlreadyExsist = false;
+		for (Contact searchContact : contactList) 
+		{
+			if (searchContact.getFirstName().equals(contact.getFirstName()))
+			{
+				isAlreadyExsist = true;
+				break;
+			}
+		}
+		if( !(isAlreadyExsist) )
+		{
+			contactList.add(contact);				
+			addressBooks.put(bookName, contactList);
+			System.out.println("New Contact Added Sucessfully");
+		}
+		else
+		{
+			System.out.println("Contact already exsist");
+		}
 	}
 }
